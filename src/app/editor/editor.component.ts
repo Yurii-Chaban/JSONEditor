@@ -16,12 +16,6 @@ export class EditorComponent implements OnInit {
     constructor() {
     }
 
-    // ngOnChanges(changes: SimpleChanges){
-    //     if(changes['jsondata'].currentValue != null){
-    //         this.editorRef.set(this.jsondata);
-    //     }
-    // }
-
     ngOnInit() {
         this.textEditor = document.getElementById('text-editor');
         this.treeEditor = document.getElementById('tree-editor');
@@ -31,7 +25,7 @@ export class EditorComponent implements OnInit {
 
     createTextObjectViewer() {
         let options = {
-            "mode": "code",
+            "mode": "code", // use code or text
             "search": false
         };
 
