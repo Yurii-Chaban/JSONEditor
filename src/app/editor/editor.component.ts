@@ -16,6 +16,7 @@ export class EditorComponent implements OnInit, OnChanges, AfterViewInit {
     textEditor: any;
     treeEditor: any;
     editorRef: any;
+    treeRef: any;
 
     public json = this.data;
 
@@ -41,8 +42,14 @@ export class EditorComponent implements OnInit, OnChanges, AfterViewInit {
         this.createTreeObjectViewer();
     }
 
+    onEditorChange(){
+      this.treeRef.set(this.editorRef.get());
+      this.treeRef.expandAll();
+    }
+
     createTextObjectViewer() {
         let options = {
+            onChange: () => { this.onEditorChange() },
             "mode": "text", // use code or text
             "search": false
         };
@@ -118,7 +125,7 @@ export class EditorComponent implements OnInit, OnChanges, AfterViewInit {
 
         console.log('createTreeObjectViewer: ', this.json);
 
-        this.editorRef = new JSONEditor(this.treeEditor, options, json);
+        this.treeRef = new JSONEditor(this.treeEditor, options, json);
     }
 
 }
