@@ -25,7 +25,7 @@ export class EditorComponent implements OnInit {
 
     createTextObjectViewer() {
         let options = {
-            "mode": "code", // use code or text
+            "mode": "text", // use code or text
             "search": false
         };
 
@@ -44,16 +44,6 @@ export class EditorComponent implements OnInit {
     createTreeObjectViewer() {
         let options = {
             "mode": "view",
-            "escapeUnicode": false,
-            "sortObjectKeys": false,
-            "history": false,
-            "search": false,
-            "indentation": 4,
-            "theme": 2,
-            "onEditable": {
-                "field": false,
-                "value": false
-            }
         };
 
         let json = {
