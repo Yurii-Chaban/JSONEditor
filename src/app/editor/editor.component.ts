@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges, AfterViewInit, ViewChild } from '@angular/core';
+import {FormGroup, FormBuilder} from '@angular/forms';
 
 declare var JSONEditor;
 
@@ -20,16 +21,39 @@ export class EditorComponent implements OnInit, OnChanges, AfterViewInit {
 
     public json = this.data;
 
-    constructor() {}
+    public reactiveForm: FormGroup;
+
+    constructor(private fb: FormBuilder) {
+        this.reactiveForm = this.fb.group({
+            result: null
+        });
+    }
+
+    uploadJson($event){
+        if(!$event.srcElement.files || $event.srcElement.files.length == 0 || $event.srcElement.files[0].type != 'application/json'){
+            return;
+        }
+        let file = $event.srcElement.files[0];
+        let fr = new FileReader();
+
+        fr.onload = (e) => {
+            let result = JSON.parse(fr.result);
+            this.editorRef.set(result);
+            this.onEditorChange();
+            this.reactiveForm.setValue({
+                result: result
+            });
+        };
+
+        fr.readAsText(file);
+    }
 
     ngOnChanges(changes: SimpleChanges) {
         if (!!changes['data'] && changes['data'].currentValue != null) {
             this.editorRef.set(this.data);
         }
 
-        this.ngAfterViewInit();
-
-        console.log("ololo");
+        this.createTreeEditorMetod();
     }
 
     ngOnInit() {
@@ -38,6 +62,10 @@ export class EditorComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngAfterViewInit() {
+        this.createTreeEditorMetod();
+    }
+
+    private createTreeEditorMetod() {
         this.treeEditor = document.getElementById('tree-editor');
         this.createTreeObjectViewer();
     }
@@ -55,8 +83,6 @@ export class EditorComponent implements OnInit, OnChanges, AfterViewInit {
         };
 
         let json = {};
-
-        console.log('createTextObjectViewer: ', this.json);
 
         this.editorRef = new JSONEditor(this.textEditor, options, json);
     }

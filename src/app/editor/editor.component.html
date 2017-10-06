@@ -2,7 +2,19 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-                <div id="text-editor" #jsoneditor></div>
+                <form id="input-json-form" [formGroup]="reactiveForm">
+                    <div id="text-editor" #jsoneditor>
+                        <button (click)="fileInput.click()"
+                                id="upload-file-btn"
+                                class="form-area-btn"
+                                type="button">
+                            <i class="fa fa-download" aria-hidden="true"></i>
+                        </button>
+                        <span class="file-input">
+                        <input type="file" #fileInput (change)="uploadJson($event)" accept=".json"/>
+                      </span>
+                    </div>
+                </form>
             </div>
             <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
                 <div id="tree-editor"></div>
